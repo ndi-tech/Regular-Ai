@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 transition-colors duration-300;
+  }
+  .dark body {
+    @apply bg-gray-950 text-gray-100;
+  }
+  
+  /* Force inputs to look good in dark mode */
+  input, textarea, select {
+    @apply bg-white border-gray-300 text-gray-900 rounded-md px-3 py-2 transition-colors;
+  }
+  .dark input, .dark textarea, .dark select {
+    @apply bg-gray-900 border-gray-700 text-white focus:border-blue-500 focus:ring-blue-500;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-md border border-gray-200 dark:border-gray-800;
+  }
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
+  }
+  
+  /* The magic fix: Any card using bg-white becomes a dark card in dark mode */
+  .dark .bg-white {
+    @apply bg-gray-900 border-gray-800 text-gray-100 !important;
+  }
+  /* Fix text colors globally for dark mode */
+  .dark .text-gray-800 { @apply text-gray-200 !important; }
+  .dark .text-gray-900 { @apply text-white !important; }
+  .dark .bg-gray-50 { @apply bg-gray-900/50 !important; }
+  .dark .bg-gray-100 { @apply bg-gray-800 !important; }
+  .dark .border-gray-200 { @apply border-gray-800 !important; }
+}
+
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+.animate-blob { animation: blob 10s infinite; }
+.animation-delay-2000 { animation-delay: 2s; }
+.animation-delay-4000 { animation-delay: 4s; }
