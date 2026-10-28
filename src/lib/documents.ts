@@ -18,7 +18,6 @@ export async function extractText(file: File): Promise<string> {
       const loadingTask = pdfjs.getDocument({
         data: new Uint8Array(buf),
         useWorkerFetch: false,
-        isEvalSupported: false,
         useSystemFonts: true,
       });
       const pdf = await loadingTask.promise;
