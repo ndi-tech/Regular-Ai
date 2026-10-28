@@ -14,27 +14,14 @@ export async function extractText(file: File): Promise<string> {
     }
 
     try {
-      const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
-      const loadingTask = pdfjs.getDocument({
-        data: new Uint8Array(buf),
-        useWorkerFetch: false,
-        useSystemFonts: true,
-      });
+      const { extractText: unpdfExtract } = await import("unpdf");
+      const result = await unpdfExtract(new Uint8Array(buf), { mergePages: true });
+      const text = result.text;
       
-      const pdf = await loadingTask.promise;
-      let fullText = "";
-      
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const textContent = await page.getTextContent();
-        fullText += textContent.items.map((item: any) => item.str).join(" ") + "\n";
-      }
-
-      if (!fullText.trim()) {
+      if (!text || !text.trim()) {
         throw new Error("This PDF has no extractable text. It is likely a scanned image.");
       }
-
-      return fullText.slice(0, 200_000);
+      return text.slice(0, 200_000);
     } catch (e: any) {
       if (e.message && (e.message.includes("scanned") || e.message.includes("no extractable"))) throw e;
       console.error("PDF Parsing Error:", e);
