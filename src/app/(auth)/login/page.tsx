@@ -40,7 +40,7 @@ export default function LoginPage() {
     <main className="min-h-screen flex items-center justify-center p-6 bg-gray-50 dark:bg-[#0a0a0a]">
       <form onSubmit={submit} className="w-full max-w-sm space-y-4 bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
         <div className="mb-6">
-          <Link href="/" className="text-sm text-gray-500 hover:text-black dark:hover:text-white transition">√¢‚Ä†¬ê Back to RegulaAI</Link>
+          <Link href="/" className="text-sm text-gray-500 hover:text-black dark:hover:text-white transition">√¢&larr;Ä†&larr;ê Back to RegulaAI</Link>
           <h1 className="text-2xl font-bold mt-3">Sign in</h1>
         </div>
         
