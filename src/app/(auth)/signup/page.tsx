@@ -17,64 +17,66 @@ export default function SignupPage() {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    
+
     const supabase = createClient();
     const { data, error } = await supabase.auth.signUp({
       email, password,
       options: { data: { full_name: fullName } },
     });
-    
+
     if (error) {
       setError(error.message);
       setLoading(false);
       return;
     }
-    
+
     if (data.session) {
       router.push("/onboarding");
       router.refresh();
+    } else {
+      router.push("/login?msg=Check+your+email+to+confirm");
     }
+  }
+
   async function handleGoogleLogin() {
     const supabase = createClient();
     await supabase.auth.signInWithOAuth({
-      provider: 'google',
+      provider: "google",
       options: { redirectTo: `${window.location.origin}/auth/callback` },
     });
-  } else {
-      router.push("/login?msg=Check+your+email+to+confirm");
-    }
   }
 
   return (
     <main className="min-h-screen flex items-center justify-center p-6 bg-gray-50 dark:bg-[#0a0a0a]">
       <form onSubmit={submit} className="w-full max-w-sm space-y-4 bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
         <div className="mb-6">
-          <Link href="/" className="text-sm text-gray-500 hover:text-black dark:hover:text-white transition">â† Back to RegulaAI</Link>
+          <Link href="/" className="text-sm text-gray-500 hover:text-black dark:hover:text-white transition">← Back to RegulaAI</Link>
           <h1 className="text-2xl font-bold mt-3">Create your account</h1>
         </div>
-        
+
         {error && <p className="text-sm text-red-600 bg-red-50 dark:bg-red-900/20 p-2 rounded">{error}</p>}
-        
-        <input 
+
+        <input
           required value={fullName} onChange={(e) => setFullName(e.target.value)}
-          placeholder="Full name" className="w-full rounded-lg border p-3 outline-none focus:border-black dark:focus:border-white bg-transparent" 
+          placeholder="Full name" className="w-full rounded-lg border p-3 outline-none focus:border-black dark:focus:border-white bg-transparent"
         />
-        <input 
+        <input
           type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
-          placeholder="Work email" className="w-full rounded-lg border p-3 outline-none focus:border-black dark:focus:border-white bg-transparent" 
+          placeholder="Work email" className="w-full rounded-lg border p-3 outline-none focus:border-black dark:focus:border-white bg-transparent"
         />
-        <input 
+        <input
           type="password" required minLength={8}
           value={password} onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password (min 8 chars)" className="w-full rounded-lg border p-3 outline-none focus:border-black dark:focus:border-white bg-transparent" 
+          placeholder="Password (min 8 chars)" className="w-full rounded-lg border p-3 outline-none focus:border-black dark:focus:border-white bg-transparent"
         />
-        
-        <button 
+
+        <button
           disabled={loading}
           className="w-full rounded-lg bg-black dark:bg-white text-white dark:text-black p-3 font-semibold disabled:opacity-50 flex items-center justify-center gap-2 transition"
         >
           {loading ? <><Loader2 size={18} className="animate-spin" /> Creating...</> : "Create account"}
         </button>
+
         <div className="relative my-2">
           <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-gray-200 dark:border-gray-800"></span></div>
           <div className="relative flex justify-center text-xs uppercase"><span className="bg-white dark:bg-gray-900 px-2 text-gray-500">Or</span></div>
@@ -93,7 +95,7 @@ export default function SignupPage() {
           </svg>
           Sign up with Google
         </button>
-        
+
         <p className="text-sm text-gray-600 dark:text-gray-400 text-center pt-2">
           Have an account? <Link href="/login" className="underline font-medium">Sign in</Link>
         </p>
