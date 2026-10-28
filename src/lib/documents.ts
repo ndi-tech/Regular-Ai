@@ -14,17 +14,11 @@ export async function extractText(file: File): Promise<string> {
     }
 
     try {
-      // Load pdfjs from the legacy build
       const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
-      
-      // Crucial for Vercel: Disable the worker completely
-      // The legacy build allows us to pass this worker instance
       const loadingTask = pdfjs.getDocument({
         data: new Uint8Array(buf),
         useWorkerFetch: false,
         useSystemFonts: true,
-        // @ts-ignore - Worker parameter exists at runtime but types are sometimes mismatched
-        worker: null, 
       });
       
       const pdf = await loadingTask.promise;
