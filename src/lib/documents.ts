@@ -4,22 +4,39 @@ export async function extractText(file: File): Promise<string> {
   const buf = Buffer.from(await file.arrayBuffer());
   const name = file.name.toLowerCase();
 
-  // 1. Handle TXT and CSV (Instant)
+  // 1. Handle TXT and CSV
   if (name.endsWith(".txt") || name.endsWith(".csv")) {
     return buf.toString("utf-8").slice(0, 200_000);
   }
 
-  // 2. Handle PDF
+  // 2. Handle PDF (using pdfjs-dist for maximum compatibility)
   if (name.endsWith(".pdf")) {
     try {
-      const pdfParse = (await import("pdf-parse")).default as any;
-      const parsed = await pdfParse(buf);
-      if (!parsed.text || parsed.text.trim() === "") {
+      // Import the legacy build which works in Node.js/serverless environments
+      const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+      
+      // Load the document
+      const loadingTask = pdfjs.getDocument({ data: new Uint8Array(buf) });
+      const pdf = await loadingTask.promise;
+      
+      let fullText = "";
+      
+      // Extract text page by page
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items
+          .map((item: any) => item.str)
+          .join(" ");
+        fullText += pageText + "\n";
+      }
+      
+      if (!fullText.trim()) {
         throw new Error("The PDF has no readable text. It might be a scanned image.");
       }
-      return parsed.text.slice(0, 200_000);
+      
+      return fullText.slice(0, 200_000);
     } catch (e: any) {
-      // If pdf-parse fails (e.g., bad XRef entry), throw a user-friendly error
       console.error("PDF Parsing Error:", e);
       throw new Error("This PDF is corrupted or uses an unsupported format. Please try exporting it again, or upload a DOCX/TXT version.");
     }
