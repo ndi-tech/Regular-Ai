@@ -1,10 +1,10 @@
-"use client";
+﻿"use client";
 import { useState, useRef, useEffect } from "react";
 import { Send, Bot, User } from "lucide-react";
 
 export default function CopilotPage() {
   const [messages, setMessages] = useState<any[]>([
-    { role: "assistant", content: "Hello! I am your RegulaGrae-X AI. I have access to your uploaded documents, impact assessments, and tasks. What would you like to know?" }
+    { role: "assistant", content: "Hello! I am Grae-X AI. I have access to your uploaded documents, impact assessments, and tasks. What would you like to know?" }
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
