@@ -9,7 +9,7 @@ const NAV = [
   { href: "/assessments", label: "Impact Assessments", icon: ShieldAlert },
   { href: "/tasks", label: "Action Center", icon: CheckSquare },
   { href: "/evidence", label: "Evidence", icon: FolderOpen },
-  { href: "/copilot", label: "AI Copilot", icon: Bot },
+  { href: "/copilot", label: "Grae-X AI", icon: Bot },
   { href: "/audit", label: "Audit Trail", icon: History },
   { href: "/organization", label: "Organization", icon: Building2 },
   { href: "/settings", label: "Settings", icon: Settings },

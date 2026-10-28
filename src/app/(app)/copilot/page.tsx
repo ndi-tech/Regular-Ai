@@ -4,7 +4,7 @@ import { Send, Bot, User } from "lucide-react";
 
 export default function CopilotPage() {
   const [messages, setMessages] = useState<any[]>([
-    { role: "assistant", content: "Hello! I am your RegulaAI Copilot. I have access to your uploaded documents, impact assessments, and tasks. What would you like to know?" }
+    { role: "assistant", content: "Hello! I am your RegulaGrae-X AI. I have access to your uploaded documents, impact assessments, and tasks. What would you like to know?" }
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -48,10 +48,10 @@ export default function CopilotPage() {
       <header className="mb-6 shrink-0">
         <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
           <Bot className="text-blue-600 dark:text-blue-400" size={32} />
-          AI Copilot
+          Grae-X AI
         </h1>
         <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-          Ask questions about your compliance data. The AI only answers using your organization's information.
+          Your intelligent compliance assistant. Ask questions based on your organization's documents and data.
         </p>
       </header>
 
